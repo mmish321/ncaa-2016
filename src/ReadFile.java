@@ -1,9 +1,31 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+
 public class ReadFile {
+	
 	public static void main(String[] args) {
+		sortTeams();
 		
+		}
+	public static String getWinner(Team team1, Team team2) {
+		Random r =  new Random();
+		double random = r.nextDouble();
+		if ( random <= probability(team1, team2)) {
+			return team1.getName();
+		}
+		else {
+			return team2.getName();
+		}
+		
+		
+		
+	}
+	public static double probability(Team team1, Team team2) {
+		double probability = 0;
+		probability = (team1.getExpected() - (team1.getExpected() * team2.getExpected()))/ (team1.getExpected() + team2.getExpected() - 2* team1.getExpected() * team2.getExpected());
+		return probability;
+	}
+	public static void sortTeams() {
 		ArrayList<String> data = new ArrayList<String>();
 		ArrayList<Team> teams = new ArrayList<Team>();
 		
@@ -32,7 +54,8 @@ public class ReadFile {
 			}  catch (Exception ex) {
 			ex.printStackTrace();
 			  }
+	}
 	
-		}
+	
 	
 }
