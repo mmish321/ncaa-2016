@@ -1,17 +1,17 @@
 
 public class Team {
-	
+	private String name;
 	private int seed;
-	private int expected;
+	private double expected;
 	private String region;
-	public Team(int expected, String region, int seed) {
+	public Team(String name, double expected, String region, int seed) {
 		this.seed = seed;
 		this.region = region;
 		this.expected = expected;
-		
+		this.name = name;
 	}
 	public String toString() {
-		return (seed + " " + region +  " " + expected);
+		return (name + " " + seed + " " + region + " " +  expected);
 	}
 
 }
