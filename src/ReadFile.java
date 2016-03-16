@@ -33,11 +33,12 @@ public class ReadFile {
 			}  catch (Exception ex) {
 			ex.printStackTrace();
 			  }
- 
-		getFinalChamp(teams);
+		simulate(teams, 1000000);
      
 	}
-	
+	/*
+	 * @author Michelle Mao 
+	 */
 	public static Team getWinner(Team team1, Team team2) {
 		Random r =  new Random();
 		double random = r.nextDouble();
@@ -76,30 +77,67 @@ public class ReadFile {
 	    Team sixth = getWinner(meep.get(5), meep.get(10));
 	    Team seventh = getWinner(meep.get(6), meep.get(9));
 	    Team eight = getWinner(meep.get(7), meep.get(8));
-	    Team firstsec = getWinner(first, second);
-	    Team threefou = getWinner(third, fourth);
-	    Team fivesix = getWinner(fifth, sixth);
-	    Team seveneig = getWinner(seventh, eight);
+	    Team firstsec = getWinner(first, eight);
+	    Team threefou = getWinner(fifth, fourth);
+	    Team fivesix = getWinner(third, sixth);
+	    Team seveneig = getWinner(seventh, second);
 	    return getWinner( getWinner(firstsec, threefou), getWinner(fivesix, seveneig));
 	  	
 	}
-	public static void getFinalChamp(ArrayList<Team> teams) {
-		ArrayList<Team> west = sortTeam(teams, "West");
-		ArrayList<Team> midwest = sortTeam(teams, "Midwest");
-		ArrayList<Team> east = sortTeam(teams, "East");
-		ArrayList<Team> south = sortTeam(teams, "South");
-	    System.out.println(getRegionWinner(west).getName() + " has won the West bracket");
-	    System.out.println(getRegionWinner(midwest).getName() + " has won the Midwest bracket");
-	    System.out.println(getRegionWinner(east).getName() + " has won the East bracket");
-	    System.out.println(getRegionWinner(south).getName() + " has won the South bracket");
-	    Team final1 = getWinner(getRegionWinner(west),getRegionWinner(south));
-	    Team final2 = getWinner(getRegionWinner(east),getRegionWinner(midwest));
-	    System.out.println(final1.getName() + " has advanced to the finals!");
-	    System.out.println(final2.getName() + " has advanced to the finals!");
-	    System.out.println(getWinner(final1, final2).getName() +  " HAS WON THE TOURNAMENT");
-	    System.out.println();
+	public static void getFinalChamp(ArrayList<Team> teams, boolean silent) {
+		if (!silent) {
+			ArrayList<Team> west = sortTeam(teams, "West");
+			ArrayList<Team> midwest = sortTeam(teams, "Midwest");
+			ArrayList<Team> east = sortTeam(teams, "East");
+			ArrayList<Team> south = sortTeam(teams, "South");
+		    System.out.println(getRegionWinner(west).getName() + " has won the West bracket");
+		    System.out.println(getRegionWinner(midwest).getName() + " has won the Midwest bracket");
+		    System.out.println(getRegionWinner(east).getName() + " has won the East bracket");
+		    System.out.println(getRegionWinner(south).getName() + " has won the South bracket");
+		    Team final1 = getWinner(getRegionWinner(west),getRegionWinner(south));
+		    Team final2 = getWinner(getRegionWinner(east),getRegionWinner(midwest));
+		    System.out.println(final1.getName() + " has advanced to the finals!");
+		    System.out.println(final2.getName() + " has advanced to the finals!");
+		    Team winner = getWinner(final1, final2);
+		    winner.incrementWins();
+		    System.out.println(getWinner(final1, final2).getName() +  " HAS WON THE TOURNAMENT");
+		    System.out.println();
+		} else {
+			ArrayList<Team> west = sortTeam(teams, "West");
+			ArrayList<Team> midwest = sortTeam(teams, "Midwest");
+			ArrayList<Team> east = sortTeam(teams, "East");
+			ArrayList<Team> south = sortTeam(teams, "South");
+		    Team final1 = getWinner(getRegionWinner(west),getRegionWinner(south));
+		    Team final2 = getWinner(getRegionWinner(east),getRegionWinner(midwest));
+		    Team winner = getWinner(final1, final2);
+		    winner.incrementWins();	
+		}
+		
+	}
+	public static void getWinAverage(ArrayList<Team> teams, int amountofGames) {
+		ArrayList<Team> teamsThatWon = new ArrayList<Team>();
+		for (Team x : teams) {
+			if (x.getWins()> 0) {
+				teamsThatWon.add(x);
+			}
+		}
+		Collections.sort(teamsThatWon);
+		
+		for ( Team x : teamsThatWon) {
+			 
+				System.out.println(x.getName() + " " + ((double) x.getWins()/amountofGames) * 100 + "%");
+			
+		}
+	}
+	public static void simulate(ArrayList<Team> teams, int amount) {
+		for (int i = 0; i < amount; i++) {
+			getFinalChamp(teams, true);
+			
+		}
+		getWinAverage(teams, amount);
 	}
 	
+		
 	
 }
 
