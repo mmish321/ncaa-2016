@@ -32,9 +32,6 @@ public class Team {
 		return name;
 	}
 	
-	public void setExpected(double newprob) {
-		expected = newprob;
-	}
 	
 	
 	public void setSeed(int newseed) {
